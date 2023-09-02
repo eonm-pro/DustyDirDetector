@@ -1,0 +1,21 @@
+[package]
+name = "DustyDirDetector"
+author = "Mathis EON <eon@abes.fr>"
+description = "Check for inactive directories on your file system"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+path = "src/main.rs"
+name = "dusty-dir-detector"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+
+[dependencies]
+atty = "0.2.14"
+chrono = "0.4.28"
+clap = { version = "4.4.2", features = ["derive"] }
+humantime = "2.1.0"
+walkdir = "2.3.3"
