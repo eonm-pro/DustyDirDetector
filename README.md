@@ -45,7 +45,7 @@ To install DustyDirDetector, follow these steps:
 
 DustyDirDetector can be used with the following command-line options:
 
-- `-p, --paths <PATHS>`: Specify one or more directory paths to check for inactive directories. You can provide multiple paths separated by commas.
+- `-p, --paths <PATHS>`: Specify one or more directory paths to check for inactive directories. You can provide multiple -p parameters.
 
 - `-i, --inactive-for <DURATION>`: Set the inactivity duration threshold to identify inactive directories. Specify the duration in a human-readable format (e.g., "30 days," "2 weeks," "3 months").
 
