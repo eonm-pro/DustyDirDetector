@@ -1,6 +1,6 @@
 <div align="center">
 
-# DustyDirDetector
+# DustyDirDetector 🕸️
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/release/yourusername/DustyDirDetector-Rust.svg?style=flat-square)](https://github.com/eonm-abes/DustyDirDetector-Rust/releases)
@@ -13,7 +13,6 @@ DustyDirDetector is a Rust-based command-line tool that helps you identify inact
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Examples](#examples)
 - [License](#license)
 
 ## Features
