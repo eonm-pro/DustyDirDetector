@@ -2,6 +2,8 @@ use clap::Parser;
 use humantime::parse_duration;
 use std::path::PathBuf;
 
+use crate::inactive_dir::InactivityType;
+
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 pub struct Cli {
@@ -11,6 +13,13 @@ pub struct Cli {
     /// Sets the inactivity duration threshold
     #[arg(short, long, value_name = "DURATION", value_parser = clap::value_parser!(DurationParser))]
     pub inactive_for: DurationParser,
+    #[arg(
+        short,
+        long,
+        value_name = "INACTIVITY TYPE",
+        default_value = "modified"
+    )]
+    pub r#type: InactivityType,
 }
 
 #[derive(Clone)]

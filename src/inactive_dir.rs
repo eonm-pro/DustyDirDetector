@@ -1,8 +1,28 @@
+use clap::ValueEnum;
 use std::{collections::HashMap, path::PathBuf};
 use walkdir::WalkDir;
 
 pub struct InactiveDirFinder {
     base_dir: PathBuf,
+}
+
+#[derive(PartialEq, Clone, ValueEnum)]
+pub enum InactivityType {
+    Modified,
+    Accessed,
+    ModifiedOrAccessed,
+}
+
+impl std::ops::BitOr for InactivityType {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self::Output {
+        if self != rhs {
+            Self::ModifiedOrAccessed
+        } else {
+            self
+        }
+    }
 }
 
 impl InactiveDirFinder {
@@ -13,6 +33,7 @@ impl InactiveDirFinder {
     pub fn find(
         &self,
         max_inactivity_duration: chrono::Duration,
+        inactvity_type: &InactivityType,
     ) -> Result<Vec<InactiveDir>, Box<dyn std::error::Error>> {
         let now = std::time::SystemTime::now();
         let mut root_dir = PathBuf::new();
@@ -36,7 +57,21 @@ impl InactiveDirFinder {
                 root_dir = entry.path().to_path_buf();
             }
 
-            let last_modification = entry.metadata()?.modified()?;
+            let accessed = entry.metadata()?.accessed()?;
+            let modified = entry.metadata()?.modified()?;
+
+            let last_modification = match inactvity_type {
+                InactivityType::Accessed => accessed,
+                InactivityType::Modified => modified,
+                InactivityType::ModifiedOrAccessed => {
+                    if accessed > modified {
+                        accessed
+                    } else {
+                        modified
+                    }
+                }
+            };
+
             let inactivity_duration: chrono::Duration =
                 chrono::Duration::from_std(now.duration_since(last_modification).or_else(
                     |e| Ok::<std::time::Duration, Box<dyn std::error::Error>>(e.duration()),
